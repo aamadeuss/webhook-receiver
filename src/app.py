@@ -1,10 +1,17 @@
 from fastapi import FastAPI, Request
 import redis
 import json
+import os
 
 app = FastAPI()
 
-redis_client = redis.Redis(host="localhost", port=6379, db=0)
+REDIS_URL=os.getenv("REDIS_URL")
+redis_client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
+
+@app.get('/health')
+async def healthcheck():
+    #log here
+    return {'status': 'ok'}
 
 @app.post("/webhook")
 async def handle_webhook(
