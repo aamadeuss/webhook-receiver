@@ -18,7 +18,7 @@ async def handle_webhook(
     request: Request
 ):
     payload = await request.json()
-    redis_client.lpush("wehook_queue", json.dumps(payload))
+    redis_client.lpush("webhook_queue", json.dumps(payload))
     return {
         "status": "Queued"
     }
