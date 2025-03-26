@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 import redis
 import json
 
-app = FastAPI("/receiver")
+app = FastAPI()
 
 redis_client = redis.Redis(host="localhost", port=6379, db=0)
 
