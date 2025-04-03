@@ -5,7 +5,7 @@ import yaml
 import os
 
 app = FastAPI()
-config = yaml.safe_load(open('src/config/settings.yaml'))
+config = yaml.safe_load(open('config/settings.yaml'))
 
 # REDIS_URL=os.getenv("REDIS_URL")
 celery_app=Celery(
