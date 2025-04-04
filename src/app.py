@@ -23,7 +23,7 @@ async def handle_webhook(
     request: Request,
     x_hub_signature: str = Header(None)
 ):
-    payload = await request.json()
+    payload = await request.body()
     payload_dict = json.loads(payload)
     command = payload_dict.get("comment", {}).get("body")
     if (payload_dict.get("action") == "created" and
