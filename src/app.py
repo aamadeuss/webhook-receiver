@@ -5,12 +5,12 @@ import yaml
 import os
 
 app = FastAPI()
-config = yaml.safe_load(open('config/settings.yaml'))
+config = yaml.safe_load(open('./config/settings.yaml'))
 
-# REDIS_URL=os.getenv("REDIS_URL")
+REDIS_URL=os.getenv("REDIS_URL")
 celery_app=Celery(
     "tasks",
-    broker=config['redis']['url']
+    broker=REDIS_URL
 )
 
 @app.get('/health')
