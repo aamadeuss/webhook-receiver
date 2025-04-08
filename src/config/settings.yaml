@@ -1,7 +1,3 @@
-redis:
-  url: redis://red-cvi0got2ng1s73a07hug:6379
-  port: 6379
-
 commands: 
 - /summary
 - /review
