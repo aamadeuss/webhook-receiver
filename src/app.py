@@ -33,3 +33,7 @@ async def handle_webhook(
         return {
             "status": "Queued"
         }
+    else:
+        return {
+            "status": ""
+        }
