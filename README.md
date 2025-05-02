@@ -1,7 +1,7 @@
 ## Webhook Receiver
 
 This module will receive relevant GitHub events and verify them. It is meant to be used with [automated terraform review](https://github.com/Ishuu1124/Automated_code_review).
-Commands are verified and corresponding task are sent to Redis servers to be picked up.
+Commands from GitHub PRs are verified and corresponding task are sent to Redis servers to be picked up.
 
 ---
 
