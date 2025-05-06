@@ -29,7 +29,9 @@ async def handle_webhook(
     if (payload_dict.get("action") == "created" and
         payload_dict.get("issue", {}).get("pull_request") and 
         command in config['commands']):
-        celery_app.send_task("tasks.process_webhook", args=[payload, command])
+        
+        celery_app.send_task("tasks.process_tf", args=[payload, command])
+        
         return {
             "status": "Queued"
         }
