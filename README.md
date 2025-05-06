@@ -27,7 +27,7 @@ Commands from GitHub PRs are verified and corresponding task are sent to Redis s
   - Dockerfile can be used to host the app, and application url can be provided as webhook url for a GitHub bot.
   - Ensure that `/webhook` is added to the end of the application url when setting it as webhook url.
 
-## Functioning details:
+## Functioning details
 
 - Using FastAPI to create a server on port 8080
 - Server has routes `health` and `webhook`
@@ -36,3 +36,8 @@ Commands from GitHub PRs are verified and corresponding task are sent to Redis s
   - `/webhook`: the route that handles GitHub events sent to the API. It checks the type of event and the command used (if any). Upon successful validation, it queues a Celery task to the provided Redis URL, returning `{"status": "Queued"}`. If validation fails or the event type doesn't match, returns `{"status": ""}` instead.
     <img width="1440" alt="image" src="https://github.com/user-attachments/assets/15a0675e-7214-4ae3-b888-faccb27f5d66" />
 
+## Why Celery
+
+- GitHub events have a timeout of about 10s. A response has to be sent within the timeout window for successful delivery.
+- When performing large tasks like summarization and reviewing, it is essential to respond to the GitHub event to prevent timeouts while processing the tasks in background processes.
+- Celery achieves this using workers and allows the tasks to run in the background.
