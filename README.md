@@ -26,6 +26,7 @@ Commands from GitHub PRs are verified and corresponding task are sent to Redis s
   - The URL can then be used as the webhook URL to receive payloads.
   - Dockerfile can be used to host the app, and application url can be provided as webhook url for a GitHub bot.
   - Ensure that `/webhook` is added to the end of the application url when setting it as webhook url.
+- **Note:** For Code Engine hosting, env variables can be set separately in the deployment, so Redis URL should be provided there with the variable name `REDIS_URL`.
 
 ## Functioning details
 
