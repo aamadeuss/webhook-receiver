@@ -5,6 +5,8 @@ Commands from GitHub PRs are verified and corresponding task are sent to Redis s
 
 ---
 
+![image](https://github.com/user-attachments/assets/d9f7e4e6-38f0-4512-8c38-69a5c5b2d688)
+
 ## Need for webhook receiver
 
 - An independent application to receive, validate and process events.
