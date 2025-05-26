@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request, Header
-from celery import Celery
+from fastapi import FastAPI, Request, Header, HTTPException
+import httpx
 import json
 import yaml
 import os
@@ -7,15 +7,10 @@ import os
 app = FastAPI()
 config = yaml.safe_load(open('src/config/settings.yaml'))
 
-REDIS_URL=os.getenv("REDIS_URL")
-celery_app=Celery(
-    "tasks",
-    broker=REDIS_URL
-)
+APP_URL=os.getenv("APP_URL")
 
 @app.get('/health')
 async def healthcheck():
-    #log here
     return {'status': 'ok'}
 
 @app.post("/webhook")
@@ -29,11 +24,21 @@ async def handle_webhook(
     if (payload_dict.get("action") == "created" and
         payload_dict.get("issue", {}).get("pull_request") and 
         command in config['commands']):
-        celery_app.send_task("tasks.process_webhook", args=[payload, command])
-        return {
-            "status": "Queued"
-        }
+
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url=APP_URL, json={'payload': payload_dict, 'command': command})
+                if response.status_code==200:
+                    return {
+                        "status": "Queued"
+                    }
+                else:
+                    return {
+                        "status": "Bad response"
+                    }
+        except:
+            return {
+                "status": "Could not connect to app"
+            }
     else:
-        return {
-            "status": ""
-        }
+        raise HTTPException(status_code=400, detail="Not called")
